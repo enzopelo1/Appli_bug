@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost"; // Remplacez par le nom de votre serveur
 $username = "root"; // Remplacez par votre nom d'utilisateur
-$password = ""; // Remplacez par votre mot de passe
+$password = "root"; // Remplacez par votre mot de passe
 $dbname = "appli_bug"; // Remplacez par le nom de votre base de données
 
 try {

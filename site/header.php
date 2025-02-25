@@ -1,6 +1,8 @@
 <header class="bg-white shadow">
     <div class="container mx-auto px-4 py-6 flex justify-between items-center">
-        <h1 class="text-2xl font-bold text-gray-800">Mini Site</h1>
+        <h1 class="text-2xl font-bold text-gray-800">
+            <a href="https://www.jrcan.dev/accueil/accueil.php" class="text-gray-800 hover:text-gray-600">Mini Site</a>
+        </h1>
         <nav>
             <ul class="flex space-x-4">
                 <li><a href="index.php" class="text-gray-600 hover:text-gray-800">Home</a></li>
