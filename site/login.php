@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 if (isset($_SESSION['user'])) {
     header("Location: index.php");
@@ -21,7 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
+
 <body class="bg-gray-100 flex items-center justify-center h-screen">
+
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h1 class="text-2xl font-bold mb-6 text-center">Connexion</h1>
         <form method="post" action="login.php" class="space-y-4">
