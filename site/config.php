@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost"; // le nom du serveur
 $username = "root"; // le nom d'utilisateur
-$password = ""; // le mot de passe
+$password = "root"; // le mot de passe
 $dbname = "appli_bug"; // le nom de la base de données
 
 try {
