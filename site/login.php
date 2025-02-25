@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if ($password === $stored_password) {
                 $_SESSION['logged_in'] = true;
-                $_SESSION['username'] = $username;
+                $_SESSION['user'] = $username;
                 $_SESSION['pseudo_utilisateur'] = $username;
                 $_SESSION['id'] = $userId;
                 $_SESSION['login_success'] = true;
@@ -78,6 +78,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Se connecter</button>
                 </div>
             </form>
+            <div class="mt-4 text-center">
+                <a href="register.php" class="text-indigo-600 hover:text-indigo-800">Créer un compte</a>
+            </div>
         </div>
     </div>
 </body>

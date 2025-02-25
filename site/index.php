@@ -15,7 +15,7 @@ include 'config.php'
     <main class="container mx-auto px-4 py-6">
         <h1 class="text-3xl font-bold text-gray-800">Bienvenue sur notre mini site</h1>
         <?php if (isset($_SESSION['user'])): ?>
-            <p class="mt-4 text-gray-600">Vous êtes connecté en tant que <?php echo htmlspecialchars($_SESSION['username']); ?>.</p>
+            <p class="mt-4 text-gray-600">Vous êtes connecté en tant que <?php echo htmlspecialchars($_SESSION['pseudo_utilisateur']); ?>.</p>
         <?php endif; ?>
     </main>
 </body>

@@ -4,7 +4,7 @@
         <nav>
             <ul class="flex space-x-4">
                 <li><a href="index.php" class="text-gray-600 hover:text-gray-800">Home</a></li>
-                <?php if (isset($_SESSION['username'])): ?>
+                <?php if (isset($_SESSION['pseudo_utilisateur'])): ?>
                     <li><a href="confirm_logout.php" class="text-gray-600 hover:text-gray-800">Déconnexion</a></li>
                 <?php else: ?>
                     <li><a href="login.php" class="text-gray-600 hover:text-gray-800">Connexion</a></li>
