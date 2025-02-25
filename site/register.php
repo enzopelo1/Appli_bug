@@ -1,44 +1,56 @@
 <?php
 
+// Inclut le fichier de configuration pour la connexion à la base de données
 require_once 'config.php';
 
+// Démarre une nouvelle session ou reprend une session existante
 session_start();
 
+// Initialise la variable d'erreur
 $error = '';
 
+// Vérifie si le formulaire a été soumis
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Récupère et sécurise les données du formulaire
     $username = htmlspecialchars($_POST['username']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
+    // Vérifie si les mots de passe correspondent
     if ($password !== $confirm_password) {
         $error = 'Les mots de passe ne correspondent pas.';
     } else {
         try {
+            // Vérifie si le nom d'utilisateur existe déjà dans la base de données
             $sql = "SELECT id FROM users WHERE username=:username";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':username', $username, PDO::PARAM_STR);
             $stmt->execute();
 
+            // Si le nom d'utilisateur existe déjà, affiche une erreur
             if ($stmt->rowCount() > 0) {
                 $error = "Nom d'utilisateur déjà pris.";
             } else {
+                // Insère le nouvel utilisateur dans la base de données
                 $sql = "INSERT INTO users (username, password) VALUES (:username, :password)";
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindParam(':username', $username, PDO::PARAM_STR);
                 $stmt->bindParam(':password', $password, PDO::PARAM_STR);
                 $stmt->execute();
 
+                // Initialise les variables de session pour l'utilisateur connecté
                 $_SESSION['logged_in'] = true;
                 $_SESSION['user'] = $username;
                 $_SESSION['pseudo_utilisateur'] = $username;
                 $_SESSION['id'] = $pdo->lastInsertId();
                 $_SESSION['login_success'] = true;
 
+                // Redirige l'utilisateur vers la page d'accueil
                 header('Location: index.php');
                 exit();
             }
         } catch (PDOException $e) {
+            // En cas d'erreur, affiche un message d'erreur
             $error = "Erreur : " . $e->getMessage();
         }
     }
@@ -49,20 +61,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <head>
     <title>Inscription</title>
+    <!-- Inclut Tailwind CSS pour le style -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-100">
+    <!-- Inclut le fichier header.php pour l'en-tête de la page -->
     <?php include 'header.php'; ?>
     <div class="flex items-center justify-center h-screen">
         <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
             <h1 class="text-2xl font-bold mb-6 text-center">Inscription</h1>
+            <!-- Affiche un message d'erreur si nécessaire -->
             <?php if ($error): ?>
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
                     <strong class="font-bold">Erreur!</strong>
                     <span class="block sm:inline"><?php echo $error; ?></span>
                 </div>
             <?php endif; ?>
+            <!-- Formulaire d'inscription -->
             <form method="post" action="register.php" class="space-y-4">
                 <div>
                     <label for="username" class="block text-sm font-medium text-gray-700">Nom d'utilisateur</label>
