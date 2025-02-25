@@ -8,16 +8,18 @@ if (isset($_SESSION['user'])) {
 // Code de traitement de la connexion
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Supposons que l'utilisateur est authentifié avec succès
-    $_SESSION['user'] = 'nom_utilisateur'; // Remplacez par le nom d'utilisateur réel
+    $_SESSION['user'] = $_POST['username']; // Utilise le nom d'utilisateur saisi dans le formulaire
     header("Location: index.php");
     exit();
 }
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Connexion</title>
 </head>
+
 <body>
     <h1>Connexion</h1>
     <form method="post" action="login.php">
@@ -26,4 +28,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <button type="submit">Se connecter</button>
     </form>
 </body>
+
 </html>
