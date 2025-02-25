@@ -1,17 +1,49 @@
 <?php
 
+require_once 'config.php';
+
 session_start();
+
+$error = '';
+
 if (isset($_SESSION['user'])) {
     header("Location: index.php");
     exit();
 }
 
-// Code de traitement de la connexion
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Supposons que l'utilisateur est authentifié avec succès
-    $_SESSION['user'] = $_POST['username']; // Utilise le nom d'utilisateur saisi dans le formulaire
-    header("Location: index.php");
-    exit();
+    $username = htmlspecialchars($_POST['username']);
+    $password = $_POST['password'];
+
+    try {
+        $sql = "SELECT id, password FROM users WHERE username=:username";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stored_password = $row['password'];
+            $userId = $row['id'];
+
+            if ($password === $stored_password) {
+                $_SESSION['logged_in'] = true;
+                $_SESSION['username'] = $username;
+                $_SESSION['pseudo_utilisateur'] = $username;
+                $_SESSION['id'] = $userId;
+                $_SESSION['login_success'] = true;
+
+                header('Location: index.php');
+                exit();
+            } else {
+                $error = 'Mot de passe incorrect.';
+            }
+        } else {
+            $error = "Nom d'utilisateur incorrect.";
+        }
+    } catch (PDOException $e) {
+        $error = "Erreur : " . $e->getMessage();
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -27,6 +59,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="flex items-center justify-center h-screen">
         <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
             <h1 class="text-2xl font-bold mb-6 text-center">Connexion</h1>
+            <?php if ($error): ?>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <strong class="font-bold">Erreur!</strong>
+                    <span class="block sm:inline"><?php echo $error; ?></span>
+                </div>
+            <?php endif; ?>
             <form method="post" action="login.php" class="space-y-4">
                 <div>
                     <label for="username" class="block text-sm font-medium text-gray-700">Nom d'utilisateur</label>
